@@ -19,7 +19,6 @@ public class TodoMapper {
     }
 
     public TodoResponse toResponse(Todo todo, List<Label> labels) {
-    //public TodoResponse toResponse(Todo todo) {
         TodoResponse todoResponse = new TodoResponse();
         BeanUtils.copyProperties(todo, todoResponse);
         todoResponse.setLabels(labels);

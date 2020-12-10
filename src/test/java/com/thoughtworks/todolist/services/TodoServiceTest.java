@@ -104,4 +104,19 @@ public class TodoServiceTest {
         assertEquals(updatedTodo, todo);
     }
 
+    @Test
+    public void should_return_todo_not_found_todo_when_update_given_invalid_id() {
+        //given
+        final Todo todo = new Todo("todo1",false,Arrays.asList("1"));
+        when(todoRepository.findById(any())).thenReturn(Optional.empty());
+
+        //when
+        TodoNotFoundException todoNotFoundException = assertThrows(TodoNotFoundException.class, () -> {
+            todoService.update("99999",todo);
+        });
+
+        //then
+        assertEquals("Todo Not Found!", todoNotFoundException.getMessage());
+    }
+
 }
