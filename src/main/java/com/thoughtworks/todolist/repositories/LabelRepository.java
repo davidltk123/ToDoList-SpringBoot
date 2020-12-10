@@ -1,4 +1,7 @@
 package com.thoughtworks.todolist.repositories;
 
-public class LabelRepository {
+import com.thoughtworks.todolist.models.Label;
+import org.springframework.data.mongodb.repository.MongoRepository;
+
+public interface LabelRepository extends MongoRepository<Label, String> {
 }
