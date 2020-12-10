@@ -89,4 +89,19 @@ public class TodoServiceTest {
         assertEquals(expected, todo);
     }
 
+    @Test
+    public void should_return_updated_todo_when_update_given_valid_id() {
+        //given
+        final Todo originTodo = new Todo("todo1");
+        final Todo updatedTodo= new Todo("todo2");
+        when(todoRepository.findById("1")).thenReturn(Optional.of(originTodo));
+        when(todoRepository.save(updatedTodo)).thenReturn(updatedTodo);
+
+        //when
+        final Todo todo = todoService.update("1", updatedTodo);
+
+        //then
+        assertEquals(updatedTodo, todo);
+    }
+
 }
