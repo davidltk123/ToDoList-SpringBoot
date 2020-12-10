@@ -60,7 +60,7 @@ public class LabelServiceTest {
     }
 
     @Test
-    public void should_return_specific_label_when_get_specific_label_given_invalid_id(){
+    public void should_throw_label_not_found_when_get_specific_label_given_invalid_id(){
         //given
         when(labelRepository.findById(any())).thenReturn(Optional.empty());
 
@@ -87,5 +87,34 @@ public class LabelServiceTest {
         //then
         final Label label = labelArgumentCaptor.getValue();
         assertEquals(expected, label);
+    }
+
+    @Test
+    public void should_return_updated_label_when_update_label_given_valid_label_id(){
+        //given
+        final Label originalLabel = new Label("label1","#ffffff");
+        final Label updatedLabel = new Label("label2","#ffffff");
+        when(labelRepository.findById("1")).thenReturn(Optional.of(originalLabel));
+        when(labelRepository.save(updatedLabel)).thenReturn(updatedLabel);
+
+        //when
+        final Label label = labelService.update("1",updatedLabel);
+
+        //then
+        assertEquals(updatedLabel, label);
+    }
+
+    @Test
+    public void should_throw_label_not_found_when_update_label_given_invalid_id(){
+        //given
+        when(labelRepository.findById(any())).thenReturn(Optional.empty());
+
+        //when
+        LabelNotFoundException labelNotFoundException = assertThrows(LabelNotFoundException.class, () -> {
+            labelService.getById("99999");
+        });
+
+        //then
+        assertEquals("Label Not Found!", labelNotFoundException.getMessage());
     }
 }
