@@ -5,6 +5,7 @@ import com.thoughtworks.todolist.models.Label;
 import com.thoughtworks.todolist.repositories.LabelRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -12,7 +13,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.times;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
@@ -44,7 +47,7 @@ public class LabelServiceTest {
     }
 
     @Test
-    public void should_return_specific_label_when_get_label_by_valid_id(){
+    public void should_return_specific_label_when_get_specific_label_given_valid_id(){
         //given
         final Label expected = new Label("label1","#ffffff");
         when(labelRepository.findById("1")).thenReturn(Optional.of(expected));
@@ -57,7 +60,7 @@ public class LabelServiceTest {
     }
 
     @Test
-    public void should_return_specific_label_when_get_label_by_invalid_id(){
+    public void should_return_specific_label_when_get_specific_label_given_invalid_id(){
         //given
         when(labelRepository.findById(any())).thenReturn(Optional.empty());
 
@@ -68,5 +71,21 @@ public class LabelServiceTest {
 
         //then
         assertEquals("Label Not Found!", labelNotFoundException.getMessage());
+    }
+
+    @Test
+    public void should_return_created_label_when_create_label_given_no_label_in_database(){
+        //given
+        final Label expected = new Label("label1","#ffffff");
+        when(labelRepository.save(expected)).thenReturn(expected);
+
+        //when
+        labelService.save(expected);
+        ArgumentCaptor<Label> labelArgumentCaptor = ArgumentCaptor.forClass(Label.class);
+        verify(labelRepository, times(1)).save(labelArgumentCaptor.capture());
+
+        //then
+        final Label label = labelArgumentCaptor.getValue();
+        assertEquals(expected, label);
     }
 }
