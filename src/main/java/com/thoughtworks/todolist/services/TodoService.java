@@ -20,4 +20,8 @@ public class TodoService {
     public Todo getById(String id) {
         return todoRepository.findById(id).orElseThrow(()-> new TodoNotFoundException("Todo Not Found!"));
     }
+
+    public Todo create(Todo todo) {
+        return null;
+    }
 }

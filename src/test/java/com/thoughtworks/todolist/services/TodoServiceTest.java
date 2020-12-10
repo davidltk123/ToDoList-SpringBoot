@@ -6,6 +6,7 @@ import com.thoughtworks.todolist.models.Todo;
 import com.thoughtworks.todolist.repositories.TodoRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -18,7 +19,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
@@ -70,6 +71,22 @@ public class TodoServiceTest {
 
         //then
         assertEquals("Todo Not Found!", todoNotFoundException.getMessage());
+    }
+
+    @Test
+    public void should_return_created_todo_when_create_given_no_todo_in_the_database() {
+        //given
+        final Todo expected = new Todo("todo1");
+        when(todoRepository.save(expected)).thenReturn(expected);
+
+        //when
+        todoService.create(expected);
+        ArgumentCaptor<Todo> todoArgumentCaptor = ArgumentCaptor.forClass(Todo.class);
+        verify(todoRepository, times(1)).save(todoArgumentCaptor.capture());
+
+        //then
+        final Todo todo = todoArgumentCaptor.getValue();
+        assertEquals(expected, todo);
     }
 
 }
