@@ -1,5 +1,6 @@
 package com.thoughtworks.todolist.services;
 
+import com.thoughtworks.todolist.Exception.LabelContentDuplicatedException;
 import com.thoughtworks.todolist.Exception.LabelNotFoundException;
 import com.thoughtworks.todolist.models.Label;
 import com.thoughtworks.todolist.repositories.LabelRepository;
@@ -90,6 +91,21 @@ public class LabelServiceTest {
     }
 
     @Test
+    public void should_throw_content_duplicated_when_create_label_given_label_content_already_exists_in_database(){
+        //given
+        final Label label = new Label("label1","#ffffff");
+        when(labelRepository.findByContent(any())).thenReturn(label);
+
+        //when
+        LabelContentDuplicatedException labelContentDuplicatedException = assertThrows(LabelContentDuplicatedException.class, () -> {
+            labelService.save(label);
+        });
+
+        //then
+        assertEquals("Label already exists!", labelContentDuplicatedException.getMessage());
+    }
+
+    @Test
     public void should_return_updated_label_when_update_label_given_valid_label_id(){
         //given
         final Label originalLabel = new Label("label1","#ffffff");
@@ -119,6 +135,21 @@ public class LabelServiceTest {
     }
 
     @Test
+    public void should_throw_content_duplicated_when_update_label_given_label_content_already_exists_in_database(){
+        //given
+        final Label label = new Label("label1","#ffffff");
+        when(labelRepository.findByContent(any())).thenReturn(label);
+
+        //when
+        LabelContentDuplicatedException labelContentDuplicatedException = assertThrows(LabelContentDuplicatedException.class, () -> {
+            labelService.update("1",label);
+        });
+
+        //then
+        assertEquals("Label already exists!", labelContentDuplicatedException.getMessage());
+    }
+
+    @Test
     public void should_delete_specific_label_when_delete_given_valid_label_id() {
         //given
         final Label expected = new Label("label1","#ffffff");
@@ -145,4 +176,6 @@ public class LabelServiceTest {
         //then
         assertEquals("Label Not Found!", labelNotFoundException.getMessage());
     }
+
+
 }
