@@ -1,5 +1,6 @@
 package com.thoughtworks.todolist.services;
 
+import com.thoughtworks.todolist.Exception.LabelNotFoundException;
 import com.thoughtworks.todolist.models.Label;
 import com.thoughtworks.todolist.repositories.LabelRepository;
 import org.junit.jupiter.api.Test;
@@ -8,6 +9,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -50,5 +54,19 @@ public class LabelServiceTest {
 
         //then
         assertEquals(expected, label);
+    }
+
+    @Test
+    public void should_return_specific_label_when_get_label_by_invalid_id(){
+        //given
+        when(labelRepository.findById(any())).thenReturn(Optional.empty());
+
+        //when
+        LabelNotFoundException labelNotFoundException = assertThrows(LabelNotFoundException.class, () -> {
+            labelService.getById("99999");
+        });
+
+        //then
+        assertEquals("Label Not Found!", labelNotFoundException.getMessage());
     }
 }
