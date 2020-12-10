@@ -8,6 +8,8 @@ import com.thoughtworks.todolist.models.Todo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class TodoMapper {
     public Todo toEntity(TodoRequest todoRequest) {
@@ -16,9 +18,11 @@ public class TodoMapper {
         return todo;
     }
 
-    public TodoResponse toResponse(Todo todo) {
+    public TodoResponse toResponse(Todo todo, List<Label> labels) {
+    //public TodoResponse toResponse(Todo todo) {
         TodoResponse todoResponse = new TodoResponse();
         BeanUtils.copyProperties(todo, todoResponse);
+        todoResponse.setLabels(labels);
         return todoResponse;
     }
 }

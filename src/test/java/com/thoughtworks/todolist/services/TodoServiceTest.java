@@ -33,8 +33,8 @@ public class TodoServiceTest {
     public void should_return_all_todos_when_get_all_given_all_todos(){
         //given
         final List<Todo> expected = Arrays.asList(
-                new Todo("todo1"),
-                new Todo("todo2")
+                new Todo("todo1",false,Arrays.asList("1")),
+                new Todo("todo2",false,Arrays.asList("1"))
         );
         when(todoRepository.findAll()).thenReturn(expected);
 
@@ -49,7 +49,7 @@ public class TodoServiceTest {
     @Test
     public void should_return_specific_todo_when_get_specific_todo_given_valid_todo_id(){
         //given
-        final Todo expected = new Todo("todo1");
+        final Todo expected = new Todo("todo1",false,Arrays.asList("1"));
         when(todoRepository.findById("1")).thenReturn(Optional.of(expected));
 
         //when
@@ -76,7 +76,7 @@ public class TodoServiceTest {
     @Test
     public void should_return_created_todo_when_create_given_no_todo_in_the_database() {
         //given
-        final Todo expected = new Todo("todo1");
+        final Todo expected = new Todo("todo1",false,Arrays.asList("1"));
         when(todoRepository.save(expected)).thenReturn(expected);
 
         //when
@@ -92,8 +92,8 @@ public class TodoServiceTest {
     @Test
     public void should_return_updated_todo_when_update_given_valid_id() {
         //given
-        final Todo originTodo = new Todo("todo1");
-        final Todo updatedTodo= new Todo("todo2");
+        final Todo originTodo = new Todo("todo1",false,Arrays.asList("1"));
+        final Todo updatedTodo= new Todo("todo2",false,Arrays.asList("1"));
         when(todoRepository.findById("1")).thenReturn(Optional.of(originTodo));
         when(todoRepository.save(updatedTodo)).thenReturn(updatedTodo);
 
