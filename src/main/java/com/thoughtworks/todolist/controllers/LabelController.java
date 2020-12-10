@@ -35,6 +35,11 @@ public class LabelController {
         return labelMapper.toResponse(labelService.save(labelMapper.toEntity(labelRequest)));
     }
 
+    @PutMapping("/{labelId}")
+    public LabelResponse update(@PathVariable String labelId, @RequestBody LabelRequest labelRequest){
+        return labelMapper.toResponse(labelService.update(labelId,labelMapper.toEntity(labelRequest)));
+    }
+
 
 
 

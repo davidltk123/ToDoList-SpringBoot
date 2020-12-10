@@ -24,4 +24,12 @@ public class LabelService {
     public Label save(Label label){
         return labelRepository.save(label);
     }
+
+    public Label update(String id, Label labelUpdate){
+        Label label = getById(id);
+        labelUpdate.setId(label.getId());
+        return labelRepository.save(labelUpdate);
+    }
+
+
 }
