@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
@@ -36,5 +37,18 @@ public class LabelServiceTest {
 
         //then
         assertEquals(expected, labels);
+    }
+
+    @Test
+    public void should_return_specific_label_when_get_label_by_valid_id(){
+        //given
+        final Label expected = new Label("label1","#ffffff");
+        when(labelRepository.findById("1")).thenReturn(Optional.of(expected));
+
+        //when
+        final Label label = labelService.getById("1");
+
+        //then
+        assertEquals(expected, label);
     }
 }
