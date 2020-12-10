@@ -23,23 +23,24 @@ public class LabelService {
     }
 
     public Label save(Label label) {
-        if (isLabelContentExists(label.getContent())) {
+        if (getLabelByContent(label.getContent()) == null) {
             return labelRepository.save(label);
         }
         throw new LabelContentDuplicatedException("Label already exists!");
     }
 
     public Label update(String id, Label labelUpdate) {
-        if (isLabelContentExists(labelUpdate.getContent())) {
-            Label label = getById(id);
+        Label label = getById(id);
+        Label existLabel = getLabelByContent(labelUpdate.getContent());
+        if (existLabel == null || label.getId().equals(existLabel.getId())) {
             labelUpdate.setId(label.getId());
             return labelRepository.save(labelUpdate);
         }
         throw new LabelContentDuplicatedException("Label already exists!");
     }
 
-    public boolean isLabelContentExists(String content) {
-        return labelRepository.findByContent(content) == null;
+    private Label getLabelByContent(String content){
+        return labelRepository.findByContent(content);
     }
 
     public void delete(String id) {
