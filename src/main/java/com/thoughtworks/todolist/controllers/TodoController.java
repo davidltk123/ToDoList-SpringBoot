@@ -25,9 +25,9 @@ public class TodoController {
         return todoService.getAll().stream().map(todoMapper::toResponse).collect(Collectors.toList());
     }
 
-//    @GetMapping("/{todoId}")
-//    public TodoResponse getById(@PathVariable String todoId){
-//        return todoMapper.toResponse(todoService.getById(todoId));
-//    }
+    @GetMapping("/{todoId}")
+    public TodoResponse getById(@PathVariable String todoId){
+        return todoMapper.toResponse(todoService.getById(todoId));
+    }
 
 }
