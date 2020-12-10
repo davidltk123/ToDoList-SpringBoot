@@ -23,14 +23,14 @@ public class LabelService {
     }
 
     public Label save(Label label){
-        if(labelRepository.findByContent(label.getContent()) == null){
+        if(isLabelContentExists(label.getContent())){
             return labelRepository.save(label);
         }
         throw new LabelContentDuplicatedException("Label already exists!");
     }
 
     public Label update(String id, Label labelUpdate){
-        if(labelRepository.findByContent(labelUpdate.getContent()) == null){
+        if(isLabelContentExists(labelUpdate.getContent())){
             Label label = getById(id);
             labelUpdate.setId(label.getId());
             return labelRepository.save(labelUpdate);
@@ -38,10 +38,12 @@ public class LabelService {
         throw new LabelContentDuplicatedException("Label already exists!");
     }
 
+    public boolean isLabelContentExists(String content){
+        return labelRepository.findByContent(content) == null;
+    }
+
     public void delete(String id){
         Label label = getById(id);
         labelRepository.deleteById(label.getId());
     }
-
-
 }
