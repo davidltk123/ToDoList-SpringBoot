@@ -1,5 +1,6 @@
 package com.thoughtworks.todolist.services;
 
+import com.thoughtworks.todolist.Exception.TodoNotFoundException;
 import com.thoughtworks.todolist.models.Label;
 import com.thoughtworks.todolist.models.Todo;
 import com.thoughtworks.todolist.repositories.TodoRepository;
@@ -15,6 +16,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -53,6 +56,20 @@ public class TodoServiceTest {
 
         //then
         assertEquals(expected, todo);
+    }
+
+    @Test
+    public void should_return_todo_not_found_when_get_specific_todo_given_invalid_todo_id(){
+        //given
+        when(todoRepository.findById(any())).thenReturn(Optional.empty());
+
+        //when
+        TodoNotFoundException todoNotFoundException = assertThrows(TodoNotFoundException.class, () -> {
+            todoService.getById("99999");
+        });
+
+        //then
+        assertEquals("Todo Not Found!", todoNotFoundException.getMessage());
     }
 
 }
