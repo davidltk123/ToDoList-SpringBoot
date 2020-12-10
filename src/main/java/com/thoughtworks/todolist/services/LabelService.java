@@ -31,5 +31,10 @@ public class LabelService {
         return labelRepository.save(labelUpdate);
     }
 
+    public void delete(String id){
+        Label label = getById(id);
+        labelRepository.deleteById(label.getId());
+    }
+
 
 }

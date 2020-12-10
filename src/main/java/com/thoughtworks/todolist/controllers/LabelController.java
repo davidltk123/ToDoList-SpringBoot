@@ -40,6 +40,11 @@ public class LabelController {
         return labelMapper.toResponse(labelService.update(labelId,labelMapper.toEntity(labelRequest)));
     }
 
+    @DeleteMapping("/{labelId}")
+    public void delete(@PathVariable String labelId){
+        labelService.delete(labelId);
+    }
+
 
 
 
