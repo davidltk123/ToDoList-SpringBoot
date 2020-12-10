@@ -1,6 +1,5 @@
 package com.thoughtworks.todolist.mappers;
 
-import com.thoughtworks.todolist.dto.LabelResponse;
 import com.thoughtworks.todolist.dto.TodoRequest;
 import com.thoughtworks.todolist.dto.TodoResponse;
 import com.thoughtworks.todolist.models.Label;

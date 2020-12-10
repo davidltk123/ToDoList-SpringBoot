@@ -20,7 +20,7 @@ public class Todo {
         this.labelIds = labelIds;
     }
 
-    public Todo(){
+    public Todo() {
     }
 
     public String getId() {

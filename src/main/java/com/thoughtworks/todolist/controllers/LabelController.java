@@ -20,32 +20,30 @@ public class LabelController {
     private LabelMapper labelMapper;
 
     @GetMapping()
-    public List<LabelResponse> getAll(){
+    public List<LabelResponse> getAll() {
         return labelService.getAll().stream().map(labelMapper::toResponse).collect(Collectors.toList());
     }
 
     @GetMapping("/{labelId}")
-    public LabelResponse getById(@PathVariable String labelId){
+    public LabelResponse getById(@PathVariable String labelId) {
         return labelMapper.toResponse(labelService.getById(labelId));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public LabelResponse create(@RequestBody LabelRequest labelRequest){
+    public LabelResponse create(@RequestBody LabelRequest labelRequest) {
         return labelMapper.toResponse(labelService.save(labelMapper.toEntity(labelRequest)));
     }
 
     @PutMapping("/{labelId}")
-    public LabelResponse update(@PathVariable String labelId, @RequestBody LabelRequest labelRequest){
-        return labelMapper.toResponse(labelService.update(labelId,labelMapper.toEntity(labelRequest)));
+    public LabelResponse update(@PathVariable String labelId, @RequestBody LabelRequest labelRequest) {
+        return labelMapper.toResponse(labelService.update(labelId, labelMapper.toEntity(labelRequest)));
     }
 
     @DeleteMapping("/{labelId}")
-    public void delete(@PathVariable String labelId){
+    public void delete(@PathVariable String labelId) {
         labelService.delete(labelId);
     }
-
-
 
 
 }

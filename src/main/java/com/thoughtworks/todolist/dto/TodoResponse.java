@@ -17,7 +17,7 @@ public class TodoResponse {
         this.labels = labels;
     }
 
-    public TodoResponse(){
+    public TodoResponse() {
     }
 
     public String getId() {

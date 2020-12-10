@@ -11,7 +11,7 @@ public class Label {
     private String content;
     private String color;
 
-    public Label(){
+    public Label() {
 
     }
 
