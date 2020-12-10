@@ -1,5 +1,6 @@
 package com.thoughtworks.todolist.services;
 
+import com.thoughtworks.todolist.Exception.LabelNotFoundException;
 import com.thoughtworks.todolist.Exception.TodoNotFoundException;
 import com.thoughtworks.todolist.models.Label;
 import com.thoughtworks.todolist.models.Todo;
@@ -113,6 +114,34 @@ public class TodoServiceTest {
         //when
         TodoNotFoundException todoNotFoundException = assertThrows(TodoNotFoundException.class, () -> {
             todoService.update("99999",todo);
+        });
+
+        //then
+        assertEquals("Todo Not Found!", todoNotFoundException.getMessage());
+    }
+
+    @Test
+    public void should_delete_specific_todo_when_delete_given_valid_todo_id() {
+        //given
+        final Todo todo = new Todo("todo1",false,Arrays.asList("1"));
+        when(todoRepository.findById("1")).thenReturn(Optional.of(todo));
+
+        //when
+        todoService.delete("1");
+
+        //then
+        verify(todoRepository, times(1)).deleteById(todo.getId());
+    }
+
+    @Test
+    public void should_throw_todo_not_found_exception_when_delete_given_invalid_label_id() {
+        //given
+        final Label todo = new Label("label1","#ffffff");
+        when(todoRepository.findById(any())).thenReturn(Optional.empty());
+
+        //when
+        TodoNotFoundException todoNotFoundException = assertThrows(TodoNotFoundException.class, () -> {
+            todoService.delete("99999");
         });
 
         //then
