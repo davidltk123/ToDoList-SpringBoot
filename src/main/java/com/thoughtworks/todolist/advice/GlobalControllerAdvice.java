@@ -1,5 +1,6 @@
 package com.thoughtworks.todolist.advice;
 
+import com.thoughtworks.todolist.Exception.LabelContentDuplicatedException;
 import com.thoughtworks.todolist.Exception.LabelNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,5 +19,11 @@ public class GlobalControllerAdvice {
     @ExceptionHandler({LabelNotFoundException.class})
     public ErrorResponse handleLabelNotFound(LabelNotFoundException exception){
         return new ErrorResponse(exception.getMessage(), HttpStatus.NOT_FOUND.name());
+    }
+
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler({LabelContentDuplicatedException.class})
+    public ErrorResponse handleLabelContentDuplicated(LabelContentDuplicatedException exception){
+        return new ErrorResponse(exception.getMessage(), HttpStatus.CONFLICT.name());
     }
 }

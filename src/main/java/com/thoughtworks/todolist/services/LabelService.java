@@ -1,5 +1,6 @@
 package com.thoughtworks.todolist.services;
 
+import com.thoughtworks.todolist.Exception.LabelContentDuplicatedException;
 import com.thoughtworks.todolist.Exception.LabelNotFoundException;
 import com.thoughtworks.todolist.models.Label;
 import com.thoughtworks.todolist.repositories.LabelRepository;
@@ -22,13 +23,19 @@ public class LabelService {
     }
 
     public Label save(Label label){
-        return labelRepository.save(label);
+        if(labelRepository.findByContent(label.getContent()) == null){
+            return labelRepository.save(label);
+        }
+        throw new LabelContentDuplicatedException("Label already exists!");
     }
 
     public Label update(String id, Label labelUpdate){
-        Label label = getById(id);
-        labelUpdate.setId(label.getId());
-        return labelRepository.save(labelUpdate);
+        if(labelRepository.findByContent(labelUpdate.getContent()) == null){
+            Label label = getById(id);
+            labelUpdate.setId(label.getId());
+            return labelRepository.save(labelUpdate);
+        }
+        throw new LabelContentDuplicatedException("Label already exists!");
     }
 
     public void delete(String id){
