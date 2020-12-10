@@ -34,10 +34,10 @@ public class TodoServiceTest {
         when(todoRepository.findAll()).thenReturn(expected);
 
         //when
-        final List<Label> labels = todoService.getAll();
+        final List<Todo> todos = todoService.getAll();
 
 
         //then
-        assertEquals(expected, labels);
+        assertEquals(expected, todos);
     }
 }

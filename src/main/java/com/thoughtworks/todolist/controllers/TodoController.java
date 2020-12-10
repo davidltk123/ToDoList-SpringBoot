@@ -19,4 +19,9 @@ public class TodoController {
     @Autowired
     private TodoMapper todoMapper;
 
+    @GetMapping
+    public List<TodoResponse> getAll(){
+        return todoService.getAll().stream().map(todoMapper::toResponse).collect(Collectors.toList());
+    }
+
 }
