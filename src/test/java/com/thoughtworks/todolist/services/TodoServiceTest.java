@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -40,4 +41,18 @@ public class TodoServiceTest {
         //then
         assertEquals(expected, todos);
     }
+
+    @Test
+    public void should_return_specific_todo_when_get_specific_todo_given_valid_todo_id(){
+        //given
+        final Todo expected = new Todo("todo1");
+        when(todoRepository.findById("1")).thenReturn(Optional.of(expected));
+
+        //when
+        final Todo todo = todoService.getById("1");
+
+        //then
+        assertEquals(expected, todo);
+    }
+
 }

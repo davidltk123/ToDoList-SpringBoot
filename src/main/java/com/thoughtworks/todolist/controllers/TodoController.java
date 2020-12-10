@@ -5,6 +5,7 @@ import com.thoughtworks.todolist.mappers.TodoMapper;
 import com.thoughtworks.todolist.services.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,5 +24,10 @@ public class TodoController {
     public List<TodoResponse> getAll(){
         return todoService.getAll().stream().map(todoMapper::toResponse).collect(Collectors.toList());
     }
+
+//    @GetMapping("/{todoId}")
+//    public TodoResponse getById(@PathVariable String todoId){
+//        return todoMapper.toResponse(todoService.getById(todoId));
+//    }
 
 }
